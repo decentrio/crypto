@@ -10,6 +10,9 @@ import (
 	"github.com/cosmos/crypto/internal/rand"
 )
 
+var POP_DST = []byte("BLS_POP_BLS12381G2_XMD:SHA-256_SSWU_RO_POP_")
+var SIG_DST = []byte("BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_POP_")
+
 // bls12SecretKey used in the BLS signature scheme.
 type bls12SecretKey struct {
 	p *blst.SecretKey
@@ -62,8 +65,13 @@ func IsZero(sKey []byte) bool {
 }
 
 func (s *bls12SecretKey) Sign(msg []byte) SignatureI {
-	signature := new(blstSignature).Sign(s.p, msg, dst)
+	signature := new(blstSignature).Sign(s.p, msg, SIG_DST)
 	return &Signature{s: signature}
+}
+
+func (s *bls12SecretKey) CreatePop(msg []byte) Pop {
+	signature := new(blstSignature).Sign(s.p, msg, POP_DST)
+	return &ProofOfPossesion{s: signature}
 }
 
 // Marshal a secret key into a LittleEndian byte slice.

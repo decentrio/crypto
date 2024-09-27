@@ -6,6 +6,12 @@ type PubKey interface {
 	Equals(p2 PubKey) bool
 }
 
+type Pop interface {
+	Marshal() []byte
+	Copy() Pop
+	Equals(p2 Pop) bool
+}
+
 // SignatureI represents a BLS signature.
 type SignatureI interface {
 	Verify(pubKey PubKey, msg []byte) bool

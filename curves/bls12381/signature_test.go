@@ -172,11 +172,11 @@ func TestCopy(t *testing.T) {
 	key, ok := priv.(*bls12SecretKey)
 	require.Equal(t, true, ok)
 
-	signatureA := &Signature{s: new(blstSignature).Sign(key.p, []byte("foo"), dst)}
+	signatureA := &Signature{s: new(blstSignature).Sign(key.p, []byte("foo"), SIG_DST)}
 	signatureB, ok := signatureA.Copy().(*Signature)
 	require.Equal(t, true, ok)
 	assert.True(t, reflect.DeepEqual(signatureA.s, signatureB.s), "Signatures are not deeply equal")
 
-	signatureA.s.Sign(key.p, []byte("bar"), dst)
+	signatureA.s.Sign(key.p, []byte("bar"), SIG_DST)
 	assert.NotEqual(t, signatureA, signatureB)
 }

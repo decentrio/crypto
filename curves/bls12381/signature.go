@@ -5,8 +5,6 @@ import (
 	"fmt"
 )
 
-var dst = []byte("BLS_SIG_BLS12381G2_XMD:SHA-256_SSWU_RO_POP_")
-
 // Signature used in the BLS signature scheme.
 type Signature struct {
 	s *blstSignature
@@ -25,7 +23,7 @@ func (s *Signature) Copy() SignatureI {
 
 func (s *Signature) Verify(pubKey PubKey, msg []byte) bool {
 	// Signature and PKs are assumed to have been validated upon decompression!
-	return s.s.Verify(false, pubKey.(*PublicKey).p, false, msg, dst)
+	return s.s.Verify(false, pubKey.(*PublicKey).p, false, msg, SIG_DST)
 }
 
 // VerifySignature verifies a single signature using public key and message.
