@@ -69,8 +69,9 @@ func (s *bls12SecretKey) Sign(msg []byte) SignatureI {
 	return &Signature{s: signature}
 }
 
-func (s *bls12SecretKey) CreatePop(msg []byte) Pop {
-	signature := new(blstSignature).Sign(s.p, msg, POP_DST)
+func (s *bls12SecretKey) CreatePop() Pop {
+	pubKey := s.PublicKey().Marshal()
+	signature := new(blstSignature).Sign(s.p, pubKey, POP_DST)
 	return &ProofOfPossesion{s: signature}
 }
 

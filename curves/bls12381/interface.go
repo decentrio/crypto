@@ -23,5 +23,6 @@ type SignatureI interface {
 type SecretKey interface {
 	PublicKey() PubKey
 	Sign(msg []byte) SignatureI
+	CreatePop() Pop
 	Marshal() []byte
 }
